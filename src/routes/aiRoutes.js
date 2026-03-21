@@ -1,10 +1,12 @@
 import express from 'express';
-import { generateTopicGraph, generateQuiz, evaluateQuiz } from '../controllers/aiController.js';
+import { generateTopicGraph, evaluateQuiz } from '../controllers/aiController.js';
 
 const router = express.Router();
 
+// The route that builds your Knowledge Graph
 router.post('/generate', generateTopicGraph);
-router.post('/quiz', generateQuiz);
-router.post('/evaluate-quiz', evaluateQuiz); // <-- Your new evaluation route
+
+// The route that analyzes the student's performance after the NTA test
+router.post('/evaluate-quiz', evaluateQuiz);
 
 export default router;

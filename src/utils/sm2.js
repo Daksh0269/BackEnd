@@ -1,24 +1,24 @@
-export const calculateNextReview = (quality, repetitions, easeFactor, interval) => {
-  let newRepetitions = repetitions;
-  let newInterval = interval;
-  let newEaseFactor = easeFactor;
+/**
+ * Custom Revision Scheduler
+ * @param {boolean} isCorrect - Did the student get it right?
+ * @returns {Object} { interval, nextReviewDate }
+ */
+export const calculateCustomRevision = (isCorrect) => {
+  let intervalInDays;
 
-  if (quality >= 3) {
-    if (repetitions === 0) newInterval = 1;
-    else if (repetitions === 1) newInterval = 6;
-    else newInterval = Math.round(interval * easeFactor);
-    newRepetitions++;
+  if (isCorrect) {
+    // User requested: 10 days for correct answers
+    intervalInDays = 10; 
   } else {
-    newRepetitions = 0;
-    newInterval = 1;
+    // User requested: 7 days for incorrect/missed concepts
+    intervalInDays = 7; 
   }
 
-  newEaseFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
-  if (newEaseFactor < 1.3) newEaseFactor = 1.3;
+  const nextReviewDate = new Date();
+  nextReviewDate.setDate(nextReviewDate.getDate() + intervalInDays);
 
   return {
-    newRepetitions,
-    newInterval,
-    newEaseFactor: parseFloat(newEaseFactor.toFixed(2)),
+    interval: intervalInDays,
+    nextReviewDate
   };
 };

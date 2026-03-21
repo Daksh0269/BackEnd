@@ -6,6 +6,7 @@ import 'dotenv/config';
 import aiRoutes from './routes/aiRoutes.js'
 import reviewRoutes from './routes/reviewRoutes.js';
 import graphRoutes from './routes/graphRoutes.js';
+import QuizRoutes from './routes/QuizRoutes.js';
 
 const app = express();
 
@@ -22,6 +23,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/ai', aiRoutes);
 app.use('/api/review', reviewRoutes);
 app.use('/api/graph', graphRoutes);
+app.use('/api/quiz', QuizRoutes);
 
 // Health check
 app.get('/ping', (req, res) => res.send('Retention Engine API is live 🚀'));

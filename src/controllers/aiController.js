@@ -1,4 +1,4 @@
-import { generateGraphData, generateConceptQuiz, evaluateQuizData } from '../services/aiAgent.js';
+import { generateGraphData, evaluateQuizData } from '../services/aiAgent.js';
 
 export const generateTopicGraph = async (req, res) => {
   try {
@@ -11,28 +11,18 @@ export const generateTopicGraph = async (req, res) => {
   }
 };
 
-export const generateQuiz = async (req, res) => {
-  try {
-    const { conceptTitle, subject } = req.body;
-    if (!conceptTitle || !subject) return res.status(400).json({ error: "Missing conceptTitle or subject" });
-    const quizData = await generateConceptQuiz(conceptTitle, subject);
-    res.status(200).json({ success: true, data: quizData });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to generate quiz data" });
-  }
-};
-
 export const evaluateQuiz = async (req, res) => {
+  // We capture the exact context (subject/chapter) so the AI knows what it is grading
+  const { subject, chapter, questions, userAnswers } = req.body;
+
   try {
-    const { topic, questions, userAnswers } = req.body;
-    
     // Quick safety check
-    if (!topic || !questions || !userAnswers) {
+    if (!subject || !chapter || !questions || !userAnswers) {
         return res.status(400).json({ error: "Missing required quiz data" });
     }
 
-    // Call the service where the LLM actually lives
-    const analysis = await evaluateQuizData(topic, questions, userAnswers);
+    // Call the service where Gemini actually lives
+    const analysis = await evaluateQuizData(subject, chapter, questions, userAnswers);
 
     res.status(200).json({ success: true, data: analysis });
   } catch (error) {
