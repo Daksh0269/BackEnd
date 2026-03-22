@@ -78,3 +78,27 @@ export const evaluateQuizData = async (subject, chapter, questions, userAnswers)
 
   return await structuredLlm.invoke(prompt);
 };
+// ... existing imports ...
+
+// ==========================================
+// 3. YOUTUBE TRANSCRIPT ANALYZER
+// ==========================================
+const videoSummarySchema = z.object({
+  summary: z.string().describe("A concise, 2-paragraph summary of the entire lecture."),
+  keyTakeaways: z.array(z.string()).describe("3 to 5 highly specific bullet points summarizing the core concepts taught."),
+  formulas: z.array(z.string()).describe("Any specific mathematical, chemical, or physics formulas/equations mentioned in the text. Return an empty array if none exist.")
+});
+
+export const summarizeVideoTranscript = async (transcriptText) => {
+  const structuredLlm = llm.withStructuredOutput(videoSummarySchema);
+  
+  const prompt = `
+    You are an elite academic tutor. Analyze the following transcript from an educational YouTube video.
+    Extract the core knowledge, summarize the concepts, and explicitly list any formulas, equations, or rules mentioned.
+    
+    Transcript:
+    ${transcriptText}
+  `;
+
+  return await structuredLlm.invoke(prompt);
+};
