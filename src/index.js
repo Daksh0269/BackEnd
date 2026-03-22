@@ -8,6 +8,7 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import graphRoutes from './routes/graphRoutes.js';
 import QuizRoutes from './routes/QuizRoutes.js';
 import youtubeRoutes from './routes/youtubeRoutes.js';
+import historyRoutes from './routes/historyRoutes.js'; // ⚡ ADD THIS
 
 const app = express(); 
 
@@ -26,6 +27,8 @@ app.use('/api/review', reviewRoutes);
 app.use('/api/graph', graphRoutes);
 app.use('/api/quiz', QuizRoutes);
 app.use('/api/youtube', youtubeRoutes);
+app.use('/api/history', historyRoutes); // ⚡ ADD THIS
+
 // Health check
 app.get('/ping', (req, res) => res.send('Retention Engine API is live 🚀'));
 

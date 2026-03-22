@@ -11,4 +11,4 @@ const watchHistorySchema = new mongoose.Schema({
 // Ensure they don't get duplicate entries if they watch it twice
 watchHistorySchema.index({ userId: 1, videoId: 1 }, { unique: true });
 
-export default mongoose.model('WatchHistory', watchHistorySchema);
+export default mongoose.model('WatchHistory', watchHistorySchema); 

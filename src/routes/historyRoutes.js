@@ -1,5 +1,5 @@
-import express from 'express';
-import watchHistory from '../models/watchHistory';
+import express from 'express';``
+import WatchHistory from '../models/watchHistory.js'; 
 
 const router = express.Router();
 
