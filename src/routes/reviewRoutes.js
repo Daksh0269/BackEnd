@@ -68,5 +68,19 @@ router.get('/due/:userId', async (req, res) => {
     res.status(500).json({ success: false, error: "Failed to fetch due questions." });
   }
 });
+// Fetch ALL flashcards for a specific user to populate the Dashboard
+router.get('/all/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    // Fetch all cards and sort them by review date (soonest first)
+    const allCards = await Flashcard.find({ userId: userId }).sort({ nextReviewDate: 1 });
+
+    res.status(200).json({ success: true, data: allCards });
+  } catch (error) {
+    console.error("Error fetching all cards:", error);
+    res.status(500).json({ success: false, error: "Failed to fetch student progress." });
+  }
+});
 
 export default router;
