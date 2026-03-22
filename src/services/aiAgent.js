@@ -92,8 +92,13 @@ const videoSummarySchema = z.object({
 export const summarizeVideoTranscript = async (transcriptText) => {
   const structuredLlm = llm.withStructuredOutput(videoSummarySchema);
   
+  // ⚡ UPDATED: Explicit translation instructions added to the prompt
   const prompt = `
     You are an elite academic tutor. Analyze the following transcript from an educational YouTube video.
+    
+    CRITICAL INSTRUCTION: The transcript provided below may be in Hindi, Spanish, French, or any other regional language. 
+    Regardless of the original language, you MUST translate the concepts in your head and write your ENTIRE final response in pure English.
+    
     Extract the core knowledge, summarize the concepts, and explicitly list any formulas, equations, or rules mentioned.
     
     Transcript:
