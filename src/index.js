@@ -9,7 +9,7 @@ import graphRoutes from './routes/graphRoutes.js';
 import QuizRoutes from './routes/QuizRoutes.js';
 import youtubeRoutes from './routes/youtubeRoutes.js';
 import historyRoutes from './routes/historyRoutes.js'; // ⚡ ADD THIS
-
+import vaultRoutes from './routes/vaultRoutes.js';
 const app = express(); 
 
 // Middleware
@@ -27,7 +27,8 @@ app.use('/api/review', reviewRoutes);
 app.use('/api/graph', graphRoutes);
 app.use('/api/quiz', QuizRoutes);
 app.use('/api/youtube', youtubeRoutes);
-app.use('/api/history', historyRoutes); // ⚡ ADD THIS
+app.use('/api/history', historyRoutes); 
+app.use('/api/vault', vaultRoutes);
 
 // Health check
 app.get('/ping', (req, res) => res.send('Retention Engine API is live 🚀'));
