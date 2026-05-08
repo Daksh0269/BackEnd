@@ -1,6 +1,6 @@
 import express from 'express';
 import { saveGeneratedGraph } from '../controllers/graphController.js';
-
+import Concept from '../models/Concept.js';
 const router = express.Router();
 router.get('/all', async (req, res) => {
   try {

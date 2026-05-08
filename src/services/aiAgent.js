@@ -1,6 +1,6 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { z } from "zod";
-
+import { SystemMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
 // Initialize Gemini
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-2.5-flash",
@@ -106,4 +106,34 @@ export const summarizeVideoTranscript = async (transcriptText) => {
   `;
 
   return await structuredLlm.invoke(prompt);
+};
+// 4. STRICT AI TUTOR CHAT
+// ==========================================
+export const chatWithTutorAgent = async (message, history = [], weakAreas = []) => {
+  const weakAreasText = weakAreas.length > 0 
+    ? `The student's current weak areas based on database analytics are: ${weakAreas.join(", ")}.` 
+    : "The student has no heavily logged weak areas yet.";
+
+  const systemPrompt = new SystemMessage(`
+    You are an elite, highly strict JEE/NEET AI Tutor. 
+    Your ONLY purpose is to help the student with Physics, Chemistry, Biology, and Mathematics.
+    
+    ${weakAreasText}
+    
+    RULES:
+    1. If the student asks about anything outside of JEE/NEET syllabus, studies, or mental prep for exams, REFUSE to answer.
+    2. Guide the student to solve problems rather than just giving the final answer.
+    3. Keep in mind their weak areas. If they ask a general question, try to tie it back to their weak areas if relevant.
+    4. Keep responses concise, formatting math/physics equations clearly.
+  `);
+
+  // Format the history for LangChain
+  const formattedHistory = history.map(msg => 
+    msg.role === 'user' ? new HumanMessage(msg.content) : new AIMessage(msg.content)
+  );
+
+  const messages = [systemPrompt, ...formattedHistory, new HumanMessage(message)];
+
+  const response = await llm.invoke(messages);
+  return response.content;
 };
