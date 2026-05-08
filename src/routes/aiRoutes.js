@@ -1,5 +1,5 @@
 import express from 'express';
-import { generateTopicGraph, evaluateQuiz } from '../controllers/aiController.js';
+import { generateTopicGraph, evaluateQuiz, handleTutorChat } from '../controllers/aiController.js';
 
 const router = express.Router();
 
