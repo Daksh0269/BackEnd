@@ -4,7 +4,7 @@ import { SystemMessage, HumanMessage, AIMessage } from "@langchain/core/messages
 
 // Initialize Gemini
 const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-2.5-flash",
+  modelName: "gemini-2.5-flash",
   temperature: 0.2, // Low temperature so the AI acts like a strict, logical tutor
   apiKey: process.env.GEMINI_API_KEY, 
 });
